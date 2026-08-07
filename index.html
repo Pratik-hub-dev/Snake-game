@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snake Game</title>
+
+<style>
+body{
+    margin:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background:#222;
+    font-family:Arial,sans-serif;
+    color:white;
+}
+
+.container{
+    text-align:center;
+}
+
+canvas{
+    background:#111;
+    border:3px solid #0f0;
+}
+
+h1{
+    margin-bottom:10px;
+}
+
+p{
+    margin-top:10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+<h1>Snake Game</h1>
+<canvas id="game" width="400" height="400"></canvas>
+<p>Use Arrow Keys to Play</p>
+<p>Score: <span id="score">0</span></p>
+</div>
+
+<script>
+
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
+
+const box=20;
+let snake=[{x:200,y:200}];
+let food=randomFood();
+let direction="RIGHT";
+let score=0;
+
+document.addEventListener("keydown",changeDirection);
+
+function changeDirection(e){
+
+if(e.key==="ArrowUp" && direction!=="DOWN") direction="UP";
+if(e.key==="ArrowDown" && direction!=="UP") direction="DOWN";
+if(e.key==="ArrowLeft" && direction!=="RIGHT") direction="LEFT";
+if(e.key==="ArrowRight" && direction!=="LEFT") direction="RIGHT";
+
+}
+
+function randomFood(){
+return{
+x:Math.floor(Math.random()*20)*20,
+y:Math.floor(Math.random()*20)*20
+};
+}
+
+function draw(){
+
+ctx.fillStyle="#111";
+ctx.fillRect(0,0,400,400);
+
+ctx.fillStyle="red";
+ctx.fillRect(food.x,food.y,box,box);
+
+for(let i=0;i<snake.length;i++){
+
+ctx.fillStyle=i==0?"lime":"green";
+ctx.fillRect(snake[i].x,snake[i].y,box,box);
+
+}
+
+let headX=snake[0].x;
+let headY=snake[0].y;
+
+if(direction==="UP") headY-=box;
+if(direction==="DOWN") headY+=box;
+if(direction==="LEFT") headX-=box;
+if(direction==="RIGHT") headX+=box;
+
+if(headX===food.x && headY===food.y){
+
+score++;
+document.getElementById("score").innerText=score;
+food=randomFood();
+
+}else{
+snake.pop();
+}
+
+const newHead={x:headX,y:headY};
+
+if(
+headX<0 || headY<0 ||
+headX>=400 || headY>=400 ||
+collision(newHead,snake)
+){
+alert("Game Over! Score: "+score);
+document.location.reload();
+}
+
+snake.unshift(newHead);
+
+}
+
+function collision(head,array){
+for(let i=0;i<array.length;i++){
+if(head.x===array[i].x && head.y===array[i].y){
+return true;
+}
+}
+return false;
+}
+
+setInterval(draw,120);
+
+</script>
+
+</body>
+</html>
