@@ -231,3 +231,18 @@ startBtn.onclick = function () {
 
 initGame();
 drawBoard();
+function changeDirectionMobile(dir){
+
+    if(dir==="UP" && direction!=="DOWN")
+        direction="UP";
+
+    if(dir==="DOWN" && direction!=="UP")
+        direction="DOWN";
+
+    if(dir==="LEFT" && direction!=="RIGHT")
+        direction="LEFT";
+
+    if(dir==="RIGHT" && direction!=="LEFT")
+        direction="RIGHT";
+
+}
