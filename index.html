@@ -65,31 +65,4 @@ Use Arrow Keys to control the snake.
 <script src="script.js"></script>
 
 </body>
-</html>if(
-headX<0 || headY<0 ||
-headX>=400 || headY>=400 ||
-collision(newHead,snake)
-){
-alert("Game Over! Score: "+score);
-document.location.reload();
-}
-
-snake.unshift(newHead);
-
-}
-
-function collision(head,array){
-for(let i=0;i<array.length;i++){
-if(head.x===array[i].x && head.y===array[i].y){
-return true;
-}
-}
-return false;
-}
-
-setInterval(draw,120);
-
-</script>
-
-</body>
 </html>
