@@ -71,10 +71,12 @@ function changeDirection(e) {
 
 function collision(head) {
 
-    for (let part of snake) {
+    // Skip the snake's head (index 0)
+    for (let i = 1; i < snake.length; i++) {
 
-        if (head.x === part.x && head.y === part.y)
+        if (head.x === snake[i].x && head.y === snake[i].y) {
             return true;
+        }
 
     }
 
@@ -138,30 +140,26 @@ function moveSnake() {
     // Eat Food
     if (headX === food.x && headY === food.y) {
 
-        score++;
-        scoreText.textContent = score;
+    score++;
+    scoreText.textContent = score;
 
-        if (score % 5 === 0) {
+    food = randomFood();
 
-            level++;
-            levelText.textContent = level;
+    if (score % 5 === 0) {
+        level++;
+        levelText.textContent = level;
 
-            speed = Math.max(50, speed - 10);
+        speed = Math.max(50, speed - 10);
 
-            clearInterval(gameLoop);
-            gameLoop = setInterval(updateGame, speed);
-
-        }
-
-        food = randomFood();
-
-    } else {
-
-        snake.pop();
-
+        clearInterval(gameLoop);
+        gameLoop = setInterval(updateGame, speed);
     }
 
-    snake.unshift(newHead);
+} else {
+    snake.pop();
+}
+
+snake.unshift(newHead);
 
 }
 
