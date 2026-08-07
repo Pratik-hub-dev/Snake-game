@@ -44,10 +44,18 @@ function initGame() {
 
 function randomFood() {
 
-    return {
-        x: Math.floor(Math.random() * rows) * box,
-        y: Math.floor(Math.random() * rows) * box
-    };
+    let newFood;
+
+    do {
+
+        newFood = {
+            x: Math.floor(Math.random() * rows) * box,
+            y: Math.floor(Math.random() * rows) * box
+        };
+
+    } while (collision(newFood));
+
+    return newFood;
 
 }
 
